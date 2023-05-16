@@ -3,47 +3,90 @@ import React, { useState } from "react";
 import PageComponents from "../components/PageComponents";
 import { PhotoIcon } from "@heroicons/react/24/outline";
 import TButton from "../components/core/TButton";
+import axiosClient from "../axios";
+import { useNavigate } from "react-router-dom";
 
 export default function SurveyView() {
-
+    const navigate = useNavigate();
     const [survey, setSurvey] = useState({
-        title: '',
-        slug: '',
+        title: "",
+        slug: "",
         status: false,
-        description: '',
+        description: "",
         image: null,
-        image_url: '',
-        expire_date: '',
+        image_url: "",
+        expire_date: "",
         questions: [],
-    })
+    });
+
+    const [error, setError] = useState("");
 
     const onSubmit = (e) => {
         e.preventDefault();
-    }
 
-    const onImageChoose = () => {
+        const payload = { ...survey };
+        if (payload.image) {
+            payload.image = payload.image_url;
+        }
 
-    }
+        delete payload.image_url;
+        axiosClient
+            .post("/survey", payload)
+            .then((res) => {
+                navigate("/surveys");
+            })
+            .catch((err) => {
+                if (err && err.response) {
+                    setError(err.response.data.message);
+                }
+                console.log(err, err.response);
+            });
+    };
+
+    const onImageChoose = (e) => {
+        const file = e.target.files[0];
+
+        const reader = new FileReader();
+        reader.onload = () => {
+            setSurvey({
+                ...survey,
+                image: file,
+                image_url: reader.result,
+            });
+
+            e.target.value = "";
+        };
+        reader.readAsDataURL(file);
+    };
 
     return (
-        <PageComponents title='Create new survey'>
+        <PageComponents title="Create new survey">
             <form action="" method="POST" onSubmit={onSubmit}>
                 <div className="shadow sm:overflow-hidden sm:rounded-md">
                     <div className="space-y-6 bg-white px-4 py-5 sm:p-6">
-                        { }
+                        {error && (
+                            <div className="bg-red-500 text-white py-3 px-3">
+                                {error}
+                            </div>
+                        )}
+                        {}
                         <div>
                             <label className="block text-sm font-medium text-gray-700">
                                 Photo
                             </label>
                             <div className="mt-1 flex items-center">
                                 {survey.image_url && (
-                                    <img src={survey.image_url}
+                                    <img
+                                        src={survey.image_url}
                                         alt=""
-                                        className="w-32 h-32 object-cover" />
+                                        className="w-32 h-32 object-cover"
+                                    />
                                 )}
                                 {!survey.image_url && (
-                                    <span className="flex justify-center items-center text-gray-400 h-12 w-12
-                                        overflow-hidden rounded-full bg-gray-100">
+                                    <span
+                                        className="flex justify-center items-center text-gray-400 h-12 w-12
+                                        overflow-hidden rounded-full bg-gray-100"
+                                    >
                                         <PhotoIcon className="w-8 h-8" />
                                     </span>
                                 )}
@@ -51,18 +94,23 @@ export default function SurveyView() {
                                     type="button"
                                     className="relative ml-5 rounded-md border border-gray-300 bg-white py-2 px-3 text-sm
                                     font-medium leading-4 text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none
-                                    focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
-                                    <input type="file"
+                                    focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                                >
+                                    <input
+                                        type="file"
                                         className="absolute left-0 top-0 right-0 bottom-0 opacity-0"
-                                        onChange={onImageChoose} /> Charge
+                                        onChange={onImageChoose}
+                                    />{" "}
+                                    Charge
                                 </button>
                             </div>
-
                         </div>
-                        { }
+                        {}
                         <div className="col-span-6 sm:col-span-3">
-                            <label htmlFor="title"
-                                className="block text-sm font-medium text-gray-700">
+                            <label
+                                htmlFor="title"
+                                className="block text-sm font-medium text-gray-700"
+                            >
                                 Surveys Title
                             </label>
                             <input
@@ -71,11 +119,15 @@ export default function SurveyView() {
                                 id="title"
                                 value={survey.title}
                                 onChange={(event) => {
-                                    setSurvey({ ...survey, title: event.target.value })
+                                    setSurvey({
+                                        ...survey,
+                                        title: event.target.value,
+                                    });
                                 }}
                                 placeholder="Survey title"
                                 className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-50
-                            focus:ring-indigo-500 sm:text-sm"/>
+                            focus:ring-indigo-500 sm:text-sm"
+                            />
                         </div>
 
                         {/*Description*/}
@@ -92,7 +144,10 @@ export default function SurveyView() {
                                 id="description"
                                 value={survey.description || ""}
                                 onChange={(ev) =>
-                                    setSurvey({ ...survey, description: ev.target.value })
+                                    setSurvey({
+                                        ...survey,
+                                        description: ev.target.value,
+                                    })
                                 }
                                 placeholder="Describe your survey"
                                 className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
@@ -114,7 +169,10 @@ export default function SurveyView() {
                                 id="expire_date"
                                 value={survey.expire_date}
                                 onChange={(ev) =>
-                                    setSurvey({ ...survey, expire_date: ev.target.value })
+                                    setSurvey({
+                                        ...survey,
+                                        expire_date: ev.target.value,
+                                    })
                                 }
                                 className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                             />
@@ -130,7 +188,10 @@ export default function SurveyView() {
                                     type="checkbox"
                                     checked={survey.status}
                                     onChange={(ev) =>
-                                        setSurvey({ ...survey, status: ev.target.checked })
+                                        setSurvey({
+                                            ...survey,
+                                            status: ev.target.checked,
+                                        })
                                     }
                                     className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
                                 />
@@ -148,15 +209,12 @@ export default function SurveyView() {
                             </div>
                         </div>
                         {/*Active*/}
-
                     </div>
                     <div className="bg-gray-50 px-4 py-3 text-right sm:px-6">
-                        <TButton>
-                            Save
-                        </TButton>
+                        <TButton>Save</TButton>
                     </div>
                 </div>
             </form>
         </PageComponents>
-    )
+    );
 }
