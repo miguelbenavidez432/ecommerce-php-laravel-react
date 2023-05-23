@@ -13,11 +13,12 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('survey_question_answers', function (Blueprint $table) {
+        Schema::create('order_items', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(\App\Models\SurveyQuestion::class, 'survey_question_id');
-            $table->foreignIdFor(\App\Models\SurveyAnswer::class, 'survey_answer_id');
-            $table->text('answer');
+            $table->foreignId('order_id')->references('id')->on('orders');
+            $table->foreignId('product_id')->references('id')->on('products');
+            $table->integer('quantity');
+            $table->decimal('unit_price');
             $table->timestamps();
         });
     }
@@ -29,6 +30,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('survey_question_answers');
+        Schema::dropIfExists('order_items');
     }
 };
