@@ -16,7 +16,7 @@ class AuthController extends Controller
 
         /** @var \App\Models\User $user */
         $user = User::create([
-            'name' => $data['name'],
+            'username' => $data['username'],
             'email' => $data['email'],
             'password' => bcrypt($data['password'])
         ]);
@@ -31,7 +31,7 @@ class AuthController extends Controller
     public function login(LoginRequest $request)
     {
         $credentials = $request->validated();
-        $remember = $credentials['remember'] == false;
+        $remember = $credentials['remember'] ?? false;
         unset($credentials['remember']);
 
         if (!Auth::attempt($credentials, $remember)) {

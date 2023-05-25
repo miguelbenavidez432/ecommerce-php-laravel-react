@@ -7,7 +7,7 @@ import { UseStateContext } from "../Contexts/ContextProvider.jsx";
 export default function Signup() {
 
   const { setCurrentUser, setUserToken } = UseStateContext()
-  const [username, setUsename] = useState('');
+  const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmedPass, setConfirmedPass] = useState('');
@@ -17,10 +17,9 @@ export default function Signup() {
     ev.preventDefault();
     setError({ __html: "" });
 
-
     axiosClient
       .post("/signup", {
-        name: username,
+        username,
         email,
         password,
         password_confirmation: confirmedPass,
@@ -71,7 +70,7 @@ export default function Signup() {
                 type="text"
                 placeholder="Username"
                 value={username}
-                onChange={(e) =>setUsename(e.target.value)}
+                onChange={(e) =>setUsername(e.target.value)}
                 required
                 className="block w-full rounded-md border-0 py-1.5 text-black shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
               />

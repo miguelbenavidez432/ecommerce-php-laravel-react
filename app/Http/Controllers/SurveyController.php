@@ -161,13 +161,7 @@ class SurveyController extends Controller
     }
 
 
-    /**
-     * Save image in local file system and return saved image path
-     *
-     * @param $image
-     * @throws \Exception
-     * @author Zura Sekhniashvili <zurasekhniashvili@gmail.com>
-     */
+
     private function saveImage($image)
     {
         // Check if image is valid base64 string
@@ -203,14 +197,7 @@ class SurveyController extends Controller
         return $relativePath;
     }
 
-    /**
-     * Create a question and return
-     *
-     * @param $data
-     * @return mixed
-     * @throws \Illuminate\Validation\ValidationException
-     * @author Zura Sekhniashvili <zurasekhniashvili@gmail.com>
-     */
+
     private function createQuestion($data)
     {
         if (is_array($data['data'])) {
@@ -229,15 +216,6 @@ class SurveyController extends Controller
         return SurveyQuestion::create($validator->validated());
     }
 
-    /**
-     * Update a question and return true or false
-     *
-     * @param \App\Models\SurveyQuestion $question
-     * @param                            $data
-     * @return bool
-     * @throws \Illuminate\Validation\ValidationException
-     * @author Zura Sekhniashvili <zurasekhniashvili@gmail.com>
-     */
     private function updateQuestion(SurveyQuestion $question, $data)
     {
         if (is_array($data['data'])) {
