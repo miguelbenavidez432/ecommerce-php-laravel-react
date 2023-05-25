@@ -9,7 +9,7 @@ import axiosClient from '../axios'
 const navigation = [
     { name: 'Dashboard', to: '/dashboard' },
     { name: 'Surveys', to: '/surveys' },
-    { name: 'Projects', href: '#', current: false },
+    { name: 'Categoría', to: '/category'},
     { name: 'Calendar', href: '#', current: false },
     { name: 'Reports', href: '#', current: false },
 ]
