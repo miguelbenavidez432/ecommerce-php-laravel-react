@@ -24,7 +24,7 @@ return new class extends Migration
             $table->string('image_mime')->nullable();
             $table->integer('image_size')->nullable();
             $table->longText('description')->nullable();
-            $table->text('summary');
+            $table->text('summary')->nullable();
             $table->tinyInteger('stock')->unsigned();
             $table->decimal('price', 10, 2);
             $table->decimal('disscounted_price');

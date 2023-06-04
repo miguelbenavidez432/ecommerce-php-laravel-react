@@ -19,7 +19,7 @@ const tmpSurveys = [
         "title": "TheCodeholic YouTube channel",
         "slug": "thecodeholic-youtube-channel",
         "status": true,
-        "description": "My name is Zura.<br>I am Web Developer with 9+ years of experience, free educational content creator, CTO, Lecturer and father of two wonderful daughters.<br><br>The purpose of the channel is to share my several years of experience with beginner developers.<br>Teach them what I know and make my experience as a lesson for others.",
+        "description": "My name is Unknow.<br>I am Web Developer with 9+ years of experience, free educational content creator, CTO, Lecturer and father of two wonderful daughters.<br><br>The purpose of the channel is to share my several years of experience with beginner developers.<br>Teach them what I know and make my experience as a lesson for others.",
         "created_at": "2022-01-07 13:23:41",
         "updated_at": "2022-01-18 16:34:19",
         "expire_date": "2022-01-23",
